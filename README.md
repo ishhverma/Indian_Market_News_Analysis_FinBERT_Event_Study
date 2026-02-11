@@ -1,6 +1,4 @@
-
 # 📌 Indian Market News Analysis for HFT & Quant Finance (FinBERT + Event Study)
-
 This repository contains an end-to-end workflow for analyzing Indian market news using **NLP, FinBERT sentiment analysis, synthetic market data generation, event studies, and volatility impact analysis**.
 The goal is to uncover actionable signals for **High-Frequency Trading (HFT)** and **Quantitative Finance** strategies.
 
@@ -23,8 +21,8 @@ Therefore, capturing the **impact of news** can help build strategies for:
 * **Event-driven trading**
 * **Volatility trading**
 * **News-based HFT signals**
-
 # 🧠 Detailed Workflow (End-to-End)
+
 ## Step 1: Data Loading & Inspection
 ### Input Data
 Two datasets are loaded:
