@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>Jane Street · Indian Market Sentiment · 7 Graph Premium</title>
+    <!-- Chart.js 4.4 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter + JetBrains Mono for numbers -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- JANE STREET · POWER BI PREMIUM · 7 GRAPH ENGINE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #060a0f;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .js-premium-pro {
+            max-width: 1512px;
+            width: 100%;
+            margin: 0 auto;
+            background: #0b1119;
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.9);
+            border-radius: 28px;
+            padding: 24px 28px;
+            border: 0.5px solid #1f2f3c;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* ----- HEADER: QUANT TRADING DESK ----- */
+        .js-header-pro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 2.5px solid #1e97d9;
+            margin-bottom: 4px;
+        }
+
+        .js-title-pro {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .js-title-pro i {
+            font-size: 28px;
+            color: #1e97d9;
+            filter: drop-shadow(0 0 8px rgba(30,151,217,0.4));
+        }
+
+        .js-title-pro h1 {
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -0.02em;
+            color: white;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .js-title-pro span {
+            color: #b0d6f0;
+            font-weight: 500;
+            font-size: 13px;
+            background: #13212e;
+            padding: 4px 14px;
+            border-radius: 100px;
+            border: 0.5px solid #306f94;
+        }
+
+        .js-badge-pro {
+            background: #0e1b26;
+            padding: 8px 24px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #e2f0ff;
+            border: 0.5px solid #2a5e7a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .js-badge-pro i {
+            color: #1e97d9;
+        }
+
+        /* ----- KPI: QUANT STYLE, MONO, BOLD ----- */
+        .kpi-grid-pro {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-pro {
+            background: #0f1922;
+            border-radius: 22px;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 0.5px solid #1e384a;
+            box-shadow: 0 7px 0 #050a0e;
+            transition: 0.06s ease;
+        }
+
+        .kpi-pro:hover {
+            border-color: #1e97d9;
+            box-shadow: 0 7px 0 #0a1d2a;
+        }
+
+        .kpi-pro .info .label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #8fb7d4;
+            margin-bottom: 6px;
+        }
+
+        .kpi-pro .info .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 34px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .kpi-pro .info .sub {
+            font-size: 11px;
+            color: #bfdef5;
+            margin-top: 7px;
+            font-weight: 500;
+        }
+
+        .kpi-icon-pro {
+            width: 56px;
+            height: 56px;
+            background: #10222e;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7ac4ff;
+            font-size: 28px;
+            border: 0.5px solid #1d5270;
+        }
+
+        /* ----- DASHBOARD GRID – 4-COL, PRECISION DENSITY ----- */
+        .grid-pro {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .tile-pro {
+            background: #0f1922;
+            border-radius: 22px;
+            padding: 18px 16px;
+            border: 0.5px solid #1e384a;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 0 #050a0e;
+        }
+
+        .tile-header-pro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #1f4055;
+            padding-bottom: 8px;
+        }
+
+        .tile-header-pro h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #edf6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .tile-header-pro i {
+            color: #1e97d9;
+            font-size: 16px;
+        }
+
+        .tile-badge-pro {
+            background: #142936;
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #c3e2ff;
+            border: 0.5px solid #29648a;
+        }
+
+        .chart-pro {
+            position: relative;
+            width: 100%;
+            height: 124px;
+            margin: 4px 0 2px;
+        }
+
+        .span2 { grid-column: span 2; }
+        .span4 { grid-column: span 4; }
+
+        /* LEGEND – micro, clean */
+        .legend-pro {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            font-size: 10px;
+            color: #c2defa;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .dot-pro {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        /* HEADLINES – trading desk density */
+        .headline-pro {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .headline-item-pro {
+            background: #0c1821;
+            border-left: 6px solid;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 12px;
+            border: 0.5px solid #1e3d50;
+            border-left-width: 6px;
+        }
+
+        .headline-pos-pro { border-left-color: #1ebc73; background: #0e1e28; }
+        .headline-neg-pro { border-left-color: #e65f5f; background: #1a2a33; }
+
+        .headline-title-pro {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #f2fbff;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .conf-badge-pro {
+            background: #122433;
+            padding: 2px 10px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #c6e4ff;
+        }
+
+        /* VOLATILITY TRIPLE */
+        .vol-pro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 8px 0 6px;
+        }
+
+        .vol-pro-item {
+            background: #0b1a24;
+            border-radius: 18px;
+            padding: 14px 4px;
+            text-align: center;
+            border: 0.5px solid #1d4258;
+        }
+
+        .vol-pro-label {
+            font-size: 10px;
+            color: #b7dcff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .vol-pro-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 4px;
+            line-height: 1.2;
+        }
+
+        .pos { color: #1ebc73; }
+        .neg { color: #e65f5f; }
+
+        /* TABLE – MONO, CRISP */
+        .table-pro {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            margin-top: 10px;
+            color: #e1f0ff;
+        }
+
+        .table-pro td {
+            padding: 7px 4px;
+            border-bottom: 0.5px solid #1b384b;
+        }
+
+        /* FOOTER – STAT GROUP */
+        .footer-pro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0c151f;
+            border-radius: 20px;
+            padding: 16px 28px;
+            border: 0.5px solid #1e4056;
+            margin-top: 6px;
+            color: #cae1f7;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-group-pro {
+            display: flex;
+            gap: 36px;
+        }
+
+        .stat-group-pro i {
+            color: #1e97d9;
+            margin-right: 6px;
+        }
+
+        .export-badge-pro {
+            background: #0f212f;
+            padding: 7px 22px;
+            border-radius: 100px;
+            border: 0.5px solid #266c91;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        @media (max-width: 1300px) {
+            .grid-pro { grid-template-columns: repeat(2, 1fr); }
+            .kpi-grid-pro { grid-template-columns: repeat(2, 1fr); }
+            .span2, .span4 { grid-column: span 2; }
+        }
+        @media (max-width: 900px) {
+            .grid-pro { grid-template-columns: 1fr; }
+            .kpi-grid-pro { grid-template-columns: 1fr; }
+            .span2, .span4 { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="js-premium-pro">
+
+        <!-- ========== HEADER – JANE STREET / POWER BI ========= -->
+        <div class="js-header-pro">
+            <div class="js-title-pro">
+                <i class="fas fa-chart-pie"></i>
+                <h1>INDIAN MARKET · FinBERT SENTIMENT</h1>
+                <span>7 GRAPH · PREMIUM</span>
+            </div>
+            <div class="js-badge-pro">
+                <i class="fas fa-database"></i> 297 ARTICLES · 2026-02-11
+                <i class="fas fa-bolt" style="margin-left: 8px; color: #ffb347;"></i>
+            </div>
+        </div>
+
+        <!-- ========== KPI – 4 CARD, MONOSPACE ========= -->
+        <div class="kpi-grid-pro">
+            <div class="kpi-pro">
+                <div class="info">
+                    <div class="label"><i class="fas fa-thermometer-half"></i> SENTIMENT (AVG)</div>
+                    <div class="value">+0.26</div>
+                    <div class="sub">🔹 BULLISH · CONF 80.8%</div>
+                </div>
+                <div class="kpi-icon-pro"><i class="fas fa-chart-line"></i></div>
+            </div>
+            <div class="kpi-pro">
+                <div class="info">
+                    <div class="label"><i class="fas fa-chart-pie"></i> POS · NEU · NEG</div>
+                    <div class="value">115·144·38</div>
+                    <div class="sub">38.7% · 48.5% · 12.8%</div>
+                </div>
+                <div class="kpi-icon-pro"><i class="fas fa-chart-simple"></i></div>
+            </div>
+            <div class="kpi-pro">
+                <div class="info">
+                    <div class="label"><i class="fas fa-calendar-week"></i> EVENT DAY</div>
+                    <div class="value">+0.10%</div>
+                    <div class="sub">PEAK +0.56% (D+2)</div>
+                </div>
+                <div class="kpi-icon-pro"><i class="fas fa-arrow-trend-up"></i></div>
+            </div>
+            <div class="kpi-pro">
+                <div class="info">
+                    <div class="label"><i class="fas fa-wave-square"></i> IV Δ (D–1)</div>
+                    <div class="value">+0.091</div>
+                    <div class="sub">IMPLIED VOLATILITY</div>
+                </div>
+                <div class="kpi-icon-pro"><i class="fas fa-chart-scatter"></i></div>
+            </div>
+        </div>
+
+        <!-- ========== GRID – 7 GRAPHS, MAXIMUM SIGNAL ========= -->
+        <div class="grid-pro">
+
+            <!-- GRAPH 1-2: PIE + BAR (FinBERT distribution) -->
+            <div class="tile-pro span2">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-chart-pie"></i> FinBERT DISTRIBUTION</h3>
+                    <span class="tile-badge-pro">297 DOCS</span>
+                </div>
+                <div style="display: flex; gap: 8px; height: 130px;">
+                    <div style="flex: 1;"><canvas id="piePro"></canvas></div>
+                    <div style="flex: 1;"><canvas id="barPro"></canvas></div>
+                </div>
+                <div class="legend-pro">
+                    <span><span class="dot-pro" style="background:#1ebc73;"></span> POS 38.7%</span>
+                    <span><span class="dot-pro" style="background:#e5a811;"></span> NEU 48.5%</span>
+                    <span><span class="dot-pro" style="background:#e65f5f;"></span> NEG 12.8%</span>
+                </div>
+            </div>
+
+            <!-- GRAPH 3: CONFIDENCE HISTOGRAM -->
+            <div class="tile-pro">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-chart-column"></i> CONFIDENCE BINS</h3>
+                    <span class="tile-badge-pro">AVG 80.8%</span>
+                </div>
+                <div class="chart-pro" style="height:122px;">
+                    <canvas id="confPro"></canvas>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #c8e2fc; margin-top: 6px;">
+                    <span><span style="display:inline-block; width:9px; height:9px; background:#1ebc73; border-radius:2px;"></span> POS 83.4%</span>
+                    <span><span style="display:inline-block; width:9px; height:9px; background:#e5a811; border-radius:2px;"></span> NEU 79.8%</span>
+                    <span><span style="display:inline-block; width:9px; height:9px; background:#e65f5f; border-radius:2px;"></span> NEG 77.0%</span>
+                </div>
+            </div>
+
+            <!-- GRAPH 4: TOP HEADLINES (no chart, text) -->
+            <div class="tile-pro">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-crown"></i> TOP HEADLINES</h3>
+                    <span class="tile-badge-pro">≥95% CONF</span>
+                </div>
+                <div class="headline-pro">
+                    <div class="headline-item-pro headline-pos-pro">
+                        <div class="headline-title-pro"><span><i class="fas fa-circle-up" style="color:#1ebc73;"></i> 95%</span><span class="conf-badge-pro">POS</span></div>
+                        <div>India Glycols · Q3 profit + margin surge</div>
+                    </div>
+                    <div class="headline-item-pro headline-pos-pro">
+                        <div class="headline-title-pro"><span><i class="fas fa-circle-up" style="color:#1ebc73;"></i> 95%</span><span class="conf-badge-pro">POS</span></div>
+                        <div>Nifty, Sensex · PSU banks, pharma lead</div>
+                    </div>
+                    <div class="headline-item-pro headline-neg-pro">
+                        <div class="headline-title-pro"><span><i class="fas fa-circle-down" style="color:#e65f5f;"></i> 97%</span><span class="conf-badge-pro">NEG</span></div>
+                        <div>Textile: Gokaldas, KPR Mill, Vardhman ↓5%</div>
+                    </div>
+                    <div class="headline-item-pro headline-neg-pro">
+                        <div class="headline-title-pro"><span><i class="fas fa-circle-down" style="color:#e65f5f;"></i> 97%</span><span class="conf-badge-pro">NEG</span></div>
+                        <div>Tracxn Tech · Mukul Agrawal purchase</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRAPH 5: EVENT STUDY RETURNS (BAR) -->
+            <div class="tile-pro span2">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-chart-bar"></i> RETURNS AROUND NEWS EVENT</h3>
+                    <span class="tile-badge-pro">AVG DAILY %</span>
+                </div>
+                <div class="chart-pro" style="height:130px;">
+                    <canvas id="eventPro"></canvas>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #d4ebff; margin-top: 4px;">
+                    <span><i class="fas fa-flag-checkered" style="color:#1ebc73;"></i> PEAK +0.56% (D+2)</span>
+                    <span><i class="fas fa-flag" style="color:#e65f5f;"></i> TROUGH –0.40% (D–2)</span>
+                </div>
+            </div>
+
+            <!-- GRAPH 6: VOLATILITY TRIPLE (ATR, VOL, IV) – 3 STATS -->
+            <div class="tile-pro">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-chart-line"></i> VOLATILITY Δ</h3>
+                    <span class="tile-badge-pro">KEY IMPACT</span>
+                </div>
+                <div class="vol-pro-grid">
+                    <div class="vol-pro-item">
+                        <span class="vol-pro-label"><i class="fas fa-arrows-left-right"></i> ATR</span>
+                        <div class="vol-pro-num neg">–0.246</div>
+                        <span style="font-size:10px; color:#b0d7f0;">DAY +3</span>
+                    </div>
+                    <div class="vol-pro-item">
+                        <span class="vol-pro-label"><i class="fas fa-chart-bar"></i> VOL</span>
+                        <div class="vol-pro-num pos">+1.83M</div>
+                        <span style="font-size:10px; color:#b0d7f0;">DAY –3</span>
+                    </div>
+                    <div class="vol-pro-item">
+                        <span class="vol-pro-label"><i class="fas fa-chart-line"></i> IV</span>
+                        <div class="vol-pro-num pos">+0.091</div>
+                        <span style="font-size:10px; color:#b0d7f0;">DAY –1</span>
+                    </div>
+                </div>
+                <div style="margin-top: 6px; font-size: 10px; color: #b0d9f5; text-align: center; border-top: 0.5px solid #1e4055; padding-top: 10px;">
+                    <i class="fas fa-info-circle"></i> ATR (14) · VOL pre/post spike · IV anticipation
+                </div>
+            </div>
+
+            <!-- GRAPH 7: LIQUIDITY / VOLUME PROFILE (LINE CHART) - EXTRA METRIC -->
+            <div class="tile-pro">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-chart-scatter"></i> VOLUME PROFILE</h3>
+                    <span class="tile-badge-pro">Δ AROUND NEWS</span>
+                </div>
+                <div class="chart-pro" style="height:118px;">
+                    <canvas id="volumeChartPro"></canvas>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #b8dcff; margin-top: 6px;">
+                    <span>⬤ PRE -3D</span>
+                    <span>⬤ EVENT</span>
+                    <span>⬤ POST +3D</span>
+                </div>
+            </div>
+
+            <!-- VOLATILITY & LIQUIDITY DETAIL TABLE (FULL WIDTH, 4-COL SPAN) -->
+            <div class="tile-pro span4">
+                <div class="tile-header-pro">
+                    <h3><i class="fas fa-table"></i> DAILY VOLATILITY & LIQUIDITY · Δ AROUND NEWS</h3>
+                    <span class="tile-badge-pro">ATR · VOLUME · IV</span>
+                </div>
+                <table class="table-pro">
+                    <tr style="color:#a7d0f0;">
+                        <td>DAY</td><td>ATR</td><td>VOL (Δk)</td><td>IV Δ</td>
+                        <td>DAY</td><td>ATR</td><td>VOL (Δk)</td><td>IV Δ</td>
+                    </tr>
+                    <tr>
+                        <td>-3</td><td>—</td><td class="pos">+1,825</td><td class="neg">-0.214</td>
+                        <td>+1</td><td>—</td><td class="neg">-560</td><td class="neg">-0.076</td>
+                    </tr>
+                    <tr>
+                        <td>-2</td><td>—</td><td class="neg">-644</td><td class="neg">-0.011</td>
+                        <td>+2</td><td>—</td><td class="pos">+428</td><td class="neg">-0.052</td>
+                    </tr>
+                    <tr>
+                        <td>-1</td><td>—</td><td class="neg">-154</td><td class="pos">+0.091</td>
+                        <td>+3</td><td class="neg">-0.246</td><td class="pos">+576</td><td class="pos">+0.195</td>
+                    </tr>
+                    <tr>
+                        <td>0</td><td>—</td><td class="neg">-158</td><td class="pos">+0.003</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                </table>
+            </div>
+        </div> <!-- end grid -->
+
+        <!-- ========== FOOTER – STATISTICAL SUMMARY, POWER BI READY ========= -->
+        <div class="footer-pro">
+            <div class="stat-group-pro">
+                <span><i class="fas fa-calculator"></i> SENT σ 0.67 · CONF σ 13.5%</span>
+                <span><i class="fas fa-file-export"></i> CSV · JSON · POWER BI</span>
+                <span><i class="fas fa-chart-scatter"></i> DRIFT: D+2 +0.56%</span>
+                <span><i class="fas fa-wave-square"></i> IV RANGE: -0.214 / +0.195</span>
+            </div>
+            <div class="export-badge-pro">
+                <i class="fas-regular fa-file-lines"></i> FINBERT_20260211
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            Chart.register(ChartDataLabels);
+            // ----- PIE -----
+            new Chart(document.getElementById('piePro'), {
+                type: 'pie',
+                data: {
+                    labels: ['POS','NEU','NEG'],
+                    datasets: [{
+                        data: [115,144,38],
+                        backgroundColor: ['#1ebc73','#e5a811','#e65f5f'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            backgroundColor: '#0f1f2e',
+                            color: 'white',
+                            borderRadius: 8,
+                            padding: {top: 2, bottom: 2, left: 5, right: 5},
+                            font: { weight: '600', size: 8.5, family: 'JetBrains Mono' },
+                            formatter: (v) => ((v/297)*100).toFixed(1) + '%'
+                        }
+                    }
+                }
+            });
+            // ----- BAR -----
+            new Chart(document.getElementById('barPro'), {
+                type: 'bar',
+                data: {
+                    labels: ['P','N','N'],
+                    datasets: [{
+                        data: [115,144,38],
+                        backgroundColor: ['#1ebc73','#e5a811','#e65f5f'],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            anchor: 'end', align: 'top', offset: 1,
+                            color: '#f0f9ff', font: { weight: '600', size: 8.5, family: 'JetBrains Mono' },
+                            formatter: (v) => v
+                        }
+                    },
+                    scales: { y: { beginAtZero: true, display: false }, x: { display: false } }
+                }
+            });
+            // ----- CONFIDENCE HISTOGRAM -----
+            new Chart(document.getElementById('confPro'), {
+                type: 'bar',
+                data: {
+                    labels: ['.5','.6','.7','.8','.9'],
+                    datasets: [
+                        { data: [4, 9, 19, 45, 40], backgroundColor: '#1ebc73', barPercentage: 0.65, borderRadius: 4 },
+                        { data: [10, 21, 37, 53, 23], backgroundColor: '#e5a811', barPercentage: 0.65, borderRadius: 4 },
+                        { data: [6, 13, 16, 5, 1], backgroundColor: '#e65f5f', barPercentage: 0.65, borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: { legend: { display: false }, datalabels: { display: false } },
+                    scales: {
+                        y: { stacked: false, beginAtZero: true, display: false },
+                        x: { ticks: { color: '#c2def5', font: { size: 8, family: 'JetBrains Mono' } } }
+                    }
+                }
+            });
+            // ----- EVENT STUDY BAR -----
+            new Chart(document.getElementById('eventPro'), {
+                type: 'bar',
+                data: {
+                    labels: ['-3','-2','-1','0','+1','+2','+3'],
+                    datasets: [{
+                        data: [-0.285, -0.398, 0.060, 0.097, -0.200, 0.557, -0.041],
+                        backgroundColor: ctx => ctx.raw >= 0 ? '#1ebc73' : '#e65f5f',
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            anchor: ctx => ctx.raw >= 0 ? 'end' : 'start',
+                            align: ctx => ctx.raw >= 0 ? 'bottom' : 'top',
+                            offset: 1, color: '#e2f0ff',
+                            font: { weight: '600', size: 8, family: 'JetBrains Mono' },
+                            formatter: v => v.toFixed(2) + '%'
+                        }
+                    },
+                    scales: { y: { display: false }, x: { ticks: { color: '#c2def5', font: { size: 8.5, family: 'JetBrains Mono' } } } }
+                }
+            });
+            // ----- VOLUME PROFILE (LINE) - 7th graph -----
+            new Chart(document.getElementById('volumeChartPro'), {
+                type: 'line',
+                data: {
+                    labels: ['-3','-2','-1','0','+1','+2','+3'],
+                    datasets: [{
+                        data: [1825, -644, -154, -158, -560, 428, 576],
+                        borderColor: '#1e97d9',
+                        backgroundColor: 'rgba(30,151,217,0.1)',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#7ac4ff',
+                        pointBorderColor: '#0a1a2a',
+                        pointBorderWidth: 1.5,
+                        pointRadius: 3.5,
+                        tension: 0.2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: { display: false }
+                    },
+                    scales: {
+                        y: { display: false, beginAtZero: false },
+                        x: { ticks: { color: '#b8d6f0', font: { size: 8, family: 'JetBrains Mono' } } }
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
