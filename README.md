@@ -22,7 +22,7 @@ Therefore, capturing the **impact of news** can help build strategies for:
 * **Volatility trading**
 * **News-based HFT signals**
   
-1️⃣ News Data Acquisition
+## 1️⃣ News Data Acquisition
 News data is fetched directly from an external News API.
 Process:
 Connect to API
