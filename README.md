@@ -142,7 +142,7 @@ A multi-panel dashboard is generated:
 * Top positive & negative news
 * Event study chart
 * Volatility & volume impact charts
-* <img width="1990" height="1787" alt="image" src="https://github.com/user-attachments/assets/008815b9-ef56-45e7-a8aa-75a2f6dc6841" />
+https://www.canva.com/design/DAHADV3RxdI/xMTdAdutJ6JLGgFzg-CG2g/edit
 
 # 🧾 Reports Generated
 * `hft_quant_finance_report_<timestamp>.txt`
