@@ -21,17 +21,34 @@ Therefore, capturing the **impact of news** can help build strategies for:
 * **Event-driven trading**
 * **Volatility trading**
 * **News-based HFT signals**
-# 🧠 Detailed Workflow (End-to-End)
+1️⃣ News Data Acquisition
+News data is fetched directly from an external News API.
+Process:
+Connect to API
+Retrieve latest Indian market news
+Store structured response
+Save cleaned data into CSV files for further analysis
+Generated Files:
+indian_market_news_newsdata_io.csv (297 articles)
+news_data.csv (100 articles)
+Saving the data as CSV ensures:
+Reproducibility
+Offline analysis capability
+Easy integration into ML pipelines
 
-## Step 1: Data Loading & Inspection
-### Input Data
-Two datasets are loaded:
-| File                                 | Articles |
-| ------------------------------------ | -------- |
-| `indian_market_news_newsdata_io.csv` | 297      |
-| `news_data.csv`                      | 100      |
-### Outcome
-Main analysis uses **297 news articles**.
+Easy integration into ML pipelines
+
+🧠 Step-by-Step Workflow
+Step 1: Data Loading & Inspection
+The saved CSV files are loaded into pandas for analysis.
+Main dataset used:
+297 news articles
+Each article contains:
+Title
+Description
+Publication Date
+Source
+Content
 
 ## Step 2: Text Preprocessing & Named Entity Recognition (NER)
 ### Process
